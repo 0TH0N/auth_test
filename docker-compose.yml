@@ -1,4 +1,8 @@
 version: '3.5'
+
+volumes:
+    datavolume:
+
 services:
     db:
         container_name: db
@@ -11,6 +15,8 @@ services:
             MYSQL_DATABASE: symfony
             MYSQL_USER: symfony
             MYSQL_PASSWORD: symfony
+        volumes:
+            - datavolume:/var/lib/mysql
 
     php:
         container_name: app
@@ -32,3 +38,18 @@ services:
             - "80:80"
         depends_on: 
             - php
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: pma
+        links:
+            - db
+        environment:
+            PMA_HOST: db
+            PMA_PORT: 3306
+            PMA_ARBITRARY: 1
+        restart: always
+        ports:
+            - 8081:80
+        depends_on:
+            - nginx
