@@ -1,2 +1,18 @@
-GET http://mysite.loc/api/user
+# Первый запрос на создание API-токена.
+POST http://mysite.loc/api/user/token
+Content-Type: application/json
+
+{
+    "username": "User0",
+    "password": "123456"
+}
+
+###
+# Второй запрос на получение "полезных" данных.
+# Перед запуском скопируйте ключ из ответа на первый запрос.
+GET http://mysite.loc/api/data
 Accept: application/json
+X-AUTH-TOKEN: ff91349eea1225ce88285ad3d907a691
+
+
+

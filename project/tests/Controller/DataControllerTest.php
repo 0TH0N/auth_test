@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class UserControllerTest extends WebTestCase
+class DataControllerTest extends WebTestCase
 {
     /**
      * @var EntityManager
@@ -30,7 +30,7 @@ class UserControllerTest extends WebTestCase
             ->getManager();
     }
 
-    public function testGetToken()
+    public function testGetData()
     {
         $users = $this->entityManager->getRepository(User::class)->createQueryBuilder('u')
             ->select('u')
@@ -40,25 +40,25 @@ class UserControllerTest extends WebTestCase
 
         foreach ($users as $user) {
             $this->client->request(
-                'POST',
-                '/api/user/token',
+                'GET',
+                '/api/data',
                 [],
                 [],
-                ['CONTENT_TYPE' => 'application/json'],
-                '{"username":"' . $user->getUsername() . '", "password":"123456"}'
+                [
+                    'CONTENT_TYPE' => 'application/json',
+                    'HTTP_X-AUTH-TOKEN' => $user->getApiToken(),
+                ]
             );
 
             $response = $this->client->getResponse();
-
-            $this->entityManager->refresh($user);
 
             $this->assertResponseIsSuccessful();
             $this->assertJson($response->getContent());
 
             $responseBody = json_decode($response->getContent(), true);
 
-            $this->assertArrayHasKey('api_token', $responseBody);
-            $this->assertEquals($user->getApiToken(), $responseBody['api_token']);
+            $this->assertArrayHasKey('message', $responseBody);
+            $this->assertEquals('Hello, ' . $user->getUsername() . '!', $responseBody['message']);
         }
     }
 }
