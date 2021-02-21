@@ -1,0 +1,2 @@
+GET http://mysite.loc/api/user
+Accept: application/json
