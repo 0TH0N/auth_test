@@ -1,4 +1,6 @@
 # Первый запрос на создание API-токена.
+#
+# @no-cookie-jar
 POST http://mysite.loc/api/user/token
 Content-Type: application/json
 
@@ -7,12 +9,72 @@ Content-Type: application/json
     "password": "123456"
 }
 
+
+
 ###
 # Второй запрос на получение "полезных" данных.
 # Перед запуском скопируйте ключ из ответа на первый запрос.
+#
+# @no-cookie-jar
 GET http://mysite.loc/api/data
 Accept: application/json
 X-AUTH-TOKEN: ff91349eea1225ce88285ad3d907a691
 
 
 
+###
+# Третий, четвертый и пятый запросы для демонстрации что роут на получени токена закрыт для доступа с помощью него. Только логин и пароль.
+# Перед запуском скопируйте ключ из ответа на первый запрос в заголовки всех трех запросов ниже.
+#
+# @no-cookie-jar
+POST http://mysite.loc/api/user/token
+Content-Type: application/json
+X-AUTH-TOKEN: ff91349eea1225ce88285ad3d907a691
+
+{
+    "message": "Hello World!"
+}
+
+###
+# @no-cookie-jar
+POST http://mysite.loc/api/user/token
+Content-Type: application/json
+X-AUTH-TOKEN: ff91349eea1225ce88285ad3d907a691
+
+{
+    "username": "User0"
+}
+
+###
+# @no-cookie-jar
+POST http://mysite.loc/api/user/token
+Content-Type: application/json
+X-AUTH-TOKEN: ff91349eea1225ce88285ad3d907a691
+
+{
+    "username": "User0",
+    "password": "bad_password"
+}
+
+
+
+###
+# Шестой запрос на получение "полезных" данных с невалидным токеном.
+#
+# @no-cookie-jar
+GET http://mysite.loc/api/data
+Accept: application/json
+X-AUTH-TOKEN: wrond_token
+
+###
+# Седьмой запрос на получение "полезных" данных с помощью логина и пароля.
+# Хоть это и бредово body посылать с GET-запросом.
+#
+# @no-cookie-jar
+GET http://mysite.loc/api/data
+Accept: application/json
+
+{
+    "username": "User0",
+    "password": "123456"
+}
