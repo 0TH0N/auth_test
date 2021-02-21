@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +12,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
+/**
+ * Class intended for authentication users by using apiToken
+ *
+ * Class TokenAuthenticator
+ * @package App\Security
+ */
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
     private $em;
@@ -26,7 +31,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      * Called on every request to decide if this authenticator should be
      * used for the request. Returning `false` will cause this authenticator
      * to be skipped.
+     *
      * @param Request $request
+     *
      * @return bool
      */
     public function supports(Request $request): bool
@@ -37,7 +44,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     /**
      * Called on every request. Return whatever credentials you want to
      * be passed to getUser() as $credentials.
+     *
      * @param Request $request
+     *
      * @return array|string|null
      */
     public function getCredentials(Request $request)
@@ -85,8 +94,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     /**
      * Called when authentication is needed, but it's not sent
+     *
      * @param Request $request
      * @param AuthenticationException|null $authException
+     *
      * @return JsonResponse
      */
     public function start(Request $request, AuthenticationException $authException = null): JsonResponse

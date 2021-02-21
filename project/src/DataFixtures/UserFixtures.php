@@ -16,6 +16,7 @@ class UserFixtures extends Fixture
 
     /**
      * UserFixtures constructor.
+     *
      * @param UserPasswordEncoderInterface $encoder
      */
     public function __construct(UserPasswordEncoderInterface $encoder)
