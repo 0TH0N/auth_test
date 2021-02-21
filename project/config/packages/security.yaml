@@ -9,7 +9,7 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: username
+                property: apiToken
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -17,7 +17,11 @@ security:
         main:
             anonymous: lazy
             provider: app_user_provider
+            logout: ~
 
+            guard:
+              authenticators:
+                - App\Security\TokenAuthenticator
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
