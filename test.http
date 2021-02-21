@@ -78,3 +78,16 @@ Accept: application/json
     "username": "User0",
     "password": "123456"
 }
+
+###
+# Восьмой запрос на получение "полезных" данных с помощью логина и пароля.
+# Используется POST запрос, что должно привести к ошибке.
+#
+# @no-cookie-jar
+POST http://mysite.loc/api/data
+Accept: application/json
+
+{
+    "username": "User0",
+    "password": "123456"
+}
