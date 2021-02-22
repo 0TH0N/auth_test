@@ -29,7 +29,7 @@ class ErrorController extends AbstractController
 
         $message = 'Something went wrong';
 
-        if (in_array($code, [400, 401, 405])) {
+        if (($code >= 400) && ($code < 500)) {
             $message = $exception->getMessage();
         }
 
