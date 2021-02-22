@@ -87,14 +87,13 @@ class UserControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertResponseStatusCodeSame(400);
+        $this->assertJson($response->getContent());
+
+        $responseBody = json_decode($response->getContent(), true);
         $expectedString = 'User DateTime has difference with server DateTime more than 24 hours.';
-        $this->assertStringContainsString($expectedString, $response->getContent());
-//        $this->assertJson($response->getContent());
-//
-//        $responseBody = json_decode($response->getContent(), true);
-//
-//        $this->assertArrayHasKey('api_token', $responseBody);
-//        $this->assertEquals($user->getApiToken(), $responseBody['api_token']);
+
+        $this->assertArrayHasKey('message', $responseBody);
+        $this->assertEquals($expectedString, $responseBody['message']);
 
     }
 }
