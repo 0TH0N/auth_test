@@ -38,6 +38,7 @@ class DataControllerTest extends WebTestCase
             ->getQuery()
             ->getResult();
 
+        // Bunch of successful requests
         foreach ($users as $user) {
             $this->client->request(
                 'GET',
@@ -60,5 +61,28 @@ class DataControllerTest extends WebTestCase
             $this->assertArrayHasKey('message', $responseBody);
             $this->assertEquals('Hello, ' . $user->getUsername() . '!', $responseBody['message']);
         }
+
+
+        // Wrong request with bad token
+        $this->client->request(
+            'GET',
+            '/api/data',
+            [],
+            [],
+            [
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_X-AUTH-TOKEN' => 'wrong_token',
+            ]
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJson($response->getContent());
+
+        $responseBody = json_decode($response->getContent(), true);
+
+        $this->assertArrayHasKey('message', $responseBody);
+        $this->assertEquals('Bad credentials', $responseBody['message']);
     }
 }

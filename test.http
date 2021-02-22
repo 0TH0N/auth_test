@@ -1,10 +1,11 @@
-# Первый запрос на создание API-токена.
+# Первый запрос на создание API-токена. Разница между временем на машине и в запросе должна быть не больше 24 часов.
 POST http://mysite.loc/api/user/token
 Content-Type: application/json
 
 {
     "username": "User0",
-    "password": "123456"
+    "password": "123456",
+    "timestamp": "2020-02-24 00:00:00"
 }
 
 

@@ -1,7 +1,12 @@
 <?php
 
-namespace App\Security;
+namespace App\Service;
 
+/**
+ * Service for generating API Token for users
+ *
+ * @package App\Service
+ */
 class ApiTokenGeneratorService
 {
     public function generate(): string

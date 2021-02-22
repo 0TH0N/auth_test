@@ -2,7 +2,7 @@
 
 namespace App\Tests\Service;
 
-use App\Security\ApiTokenGeneratorService;
+use App\Service\ApiTokenGeneratorService;
 use PHPUnit\Framework\TestCase;
 
 class ApiTokenGeneratorServiceTest extends TestCase

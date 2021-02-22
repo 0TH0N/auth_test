@@ -3,6 +3,8 @@
 namespace App\Tests\Controller;
 
 use App\Entity\User;
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -38,14 +40,20 @@ class UserControllerTest extends WebTestCase
             ->getQuery()
             ->getResult();
 
+        $userTimestamp = (new DateTime())->format('Y-m-d H:i:s');
+
+        // Bunch of successful requests
         foreach ($users as $user) {
+            $jsonBody = '{"username":"' . $user->getUsername() .
+                '", "password":"123456", "timestamp":"' . $userTimestamp . '"}';
+
             $this->client->request(
                 'POST',
                 '/api/user/token',
                 [],
                 [],
                 ['CONTENT_TYPE' => 'application/json'],
-                '{"username":"' . $user->getUsername() . '", "password":"123456"}'
+                $jsonBody
             );
 
             $response = $this->client->getResponse();
@@ -60,5 +68,33 @@ class UserControllerTest extends WebTestCase
             $this->assertArrayHasKey('api_token', $responseBody);
             $this->assertEquals($user->getApiToken(), $responseBody['api_token']);
         }
+
+
+        // Wrong request because difference between server and user timestamps too large (1 second)
+        $userTimestamp = (new DateTime())->sub(new DateInterval('P1DT1S'))->format('Y-m-d H:i:s');
+        $jsonBody = '{"username":"' . $user->getUsername() .
+            '", "password":"123456", "timestamp":"' . $userTimestamp . '"}';
+
+        $this->client->request(
+            'POST',
+            '/api/user/token',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            $jsonBody
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertResponseStatusCodeSame(400);
+        $expectedString = 'User DateTime has difference with server DateTime more than 24 hours.';
+        $this->assertStringContainsString($expectedString, $response->getContent());
+//        $this->assertJson($response->getContent());
+//
+//        $responseBody = json_decode($response->getContent(), true);
+//
+//        $this->assertArrayHasKey('api_token', $responseBody);
+//        $this->assertEquals($user->getApiToken(), $responseBody['api_token']);
+
     }
 }
