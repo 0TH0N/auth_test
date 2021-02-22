@@ -18,7 +18,7 @@ services:
         volumes:
             - datavolume:/var/lib/mysql
 
-    php:
+    app:
         container_name: app
         build:
             context: ./docker/php-fpm
@@ -37,7 +37,7 @@ services:
         ports:
             - "80:80"
         depends_on: 
-            - php
+            - app
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin

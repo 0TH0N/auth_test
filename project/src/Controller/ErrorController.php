@@ -21,7 +21,12 @@ class ErrorController extends AbstractController
      */
     public function index(Request $request, Throwable $exception, ?DebugLoggerInterface $logger): Response
     {
-        $code = $exception->getStatusCode();
+        if (method_exists($exception, 'getStatusCode')) {
+            $code = $exception->getStatusCode();
+        } else {
+            $code = 500;
+        }
+
         $message = 'Something went wrong';
 
         if (in_array($code, [400, 401, 405])) {

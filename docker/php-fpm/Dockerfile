@@ -2,6 +2,7 @@ FROM alpine:3.13
 
 RUN apk add --no-cache \
     bash \
+    make \
     coreutils \
     php8-fpm \
     php8-ctype \
