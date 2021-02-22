@@ -39,6 +39,16 @@ class User implements UserInterface
      */
     private $apiToken;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $serverTimeApiTokenRequest;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $userTimeApiTokenRequest;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,11 +115,50 @@ class User implements UserInterface
 
     /**
      * @param mixed $apiToken
-     * @return User
+     *
+     * @return self
      */
     public function setApiToken($apiToken): self
     {
         $this->apiToken = $apiToken;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getServerTimeApiTokenRequest()
+    {
+        return $this->serverTimeApiTokenRequest;
+    }
+
+    /**
+     * @param mixed $serverTimeApiTokenRequest
+     *
+     * @return self
+     */
+    public function setServerTimeApiTokenRequest($serverTimeApiTokenRequest): self
+    {
+        $this->serverTimeApiTokenRequest = $serverTimeApiTokenRequest;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserTimeApiTokenRequest()
+    {
+        return $this->userTimeApiTokenRequest;
+    }
+
+    /**
+     * @param mixed $userTimeApiTokenRequest
+     *
+     * @return self
+     */
+    public function setUserTimeApiTokenRequest($userTimeApiTokenRequest): self
+    {
+        $this->userTimeApiTokenRequest = $userTimeApiTokenRequest;
         return $this;
     }
 
