@@ -1,5 +1,5 @@
 # Первый запрос на создание API-токена. Разница между временем на машине и в запросе должна быть не больше 24 часов.
-POST http://mysite.loc/api/user/token
+POST http://localhost:8080/api/user/token
 Content-Type: application/json
 
 {
@@ -13,7 +13,7 @@ Content-Type: application/json
 ###
 # Второй запрос на получение "полезных" данных.
 # Перед запуском скопируйте ключ из ответа на первый запрос.
-GET http://mysite.loc/api/data
+GET http://localhost:8080/api/data
 Accept: application/json
 X-AUTH-TOKEN: 0a7e1e263077e45748ede3e5da9fcdee
 
@@ -22,7 +22,7 @@ X-AUTH-TOKEN: 0a7e1e263077e45748ede3e5da9fcdee
 ###
 # Третий, четвертый и пятый запросы для демонстрации что роут на получени токена закрыт для доступа с помощью него. Только логин и пароль.
 # Перед запуском скопируйте ключ из ответа на первый запрос в заголовки всех трех запросов ниже.
-POST http://mysite.loc/api/user/token
+POST http://localhost:8080/api/user/token
 Content-Type: application/json
 X-AUTH-TOKEN: 0a7e1e263077e45748ede3e5da9fcdee
 
@@ -31,7 +31,7 @@ X-AUTH-TOKEN: 0a7e1e263077e45748ede3e5da9fcdee
 }
 
 ###
-POST http://mysite.loc/api/user/token
+POST http://localhost:8080/api/user/token
 Content-Type: application/json
 X-AUTH-TOKEN: 0a7e1e263077e45748ede3e5da9fcdee
 
@@ -40,7 +40,7 @@ X-AUTH-TOKEN: 0a7e1e263077e45748ede3e5da9fcdee
 }
 
 ###
-POST http://mysite.loc/api/user/token
+POST http://localhost:8080/api/user/token
 Content-Type: application/json
 X-AUTH-TOKEN: 0a7e1e263077e45748ede3e5da9fcdee
 
@@ -53,14 +53,14 @@ X-AUTH-TOKEN: 0a7e1e263077e45748ede3e5da9fcdee
 
 ###
 # Шестой запрос на получение "полезных" данных с невалидным токеном.
-GET http://mysite.loc/api/data
+GET http://localhost:8080/api/data
 Accept: application/json
 X-AUTH-TOKEN: wrond_token
 
 ###
 # Седьмой запрос на получение "полезных" данных с помощью логина и пароля.
 # Хоть это и бредово body посылать с GET-запросом.
-GET http://mysite.loc/api/data
+GET http://localhost:8080/api/data
 Accept: application/json
 
 {
@@ -71,7 +71,7 @@ Accept: application/json
 ###
 # Восьмой запрос на получение "полезных" данных с помощью логина и пароля.
 # Используется POST запрос, что должно привести к ошибке.
-POST http://mysite.loc/api/data
+POST http://localhost:8080/api/data
 Accept: application/json
 
 {
